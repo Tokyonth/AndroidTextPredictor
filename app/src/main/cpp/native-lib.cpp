@@ -143,3 +143,12 @@ Java_com_tokyonth_textpredictor_TextPredictorNative_destroyPredictor(
 
     predictors.erase(predictor_id);
 }
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_tokyonth_textpredictor_TextPredictorNative_isEnableLogging(
+        JNIEnv *env, jobject thiz, jboolean enable) {
+    (void) env;
+    (void) thiz;
+
+    JniLog::isEnableLogging(enable);
+}

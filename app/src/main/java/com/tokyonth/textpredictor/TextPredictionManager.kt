@@ -82,4 +82,8 @@ class TextPredictionManager(
         predictor.destroyPredictor(predictor.predictorId)
     }
 
+    fun setIsEnableLogging(isEnable: Boolean) {
+        predictor.isEnableLogging(isEnable)
+    }
+
 }

@@ -38,4 +38,6 @@ class TextPredictorNative @JvmOverloads constructor(
 
     external fun destroyPredictor(predictorId: Long)
 
+    external fun isEnableLogging(isEnable: Boolean)
+
 }

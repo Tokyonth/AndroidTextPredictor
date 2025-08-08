@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         textPredictionManager = TextPredictionManager(this)
+        textPredictionManager.setIsEnableLogging(true)
 
         binding.tvInfo.text = buildString {
             append("Model Info:")

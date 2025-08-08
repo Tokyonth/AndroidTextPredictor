@@ -22,6 +22,8 @@ enum LogLevel {
 
 class JniLog {
 public:
+    static void isEnableLogging(bool isEnable) { s_isEnable = isEnable; }
+
     // 配置日志是否显示线程ID
     static void setShowThreadId(bool show) { s_showThreadId = show; }
 
@@ -29,10 +31,11 @@ public:
     static void setShowFileLine(bool show) { s_showFileLine = show; }
 
     // 核心日志函数
-    static void log(LogLevel level, const char* tag, const char* file, int line,
-                    const char* format, ...);
+    static void log(LogLevel level, const char *tag, const char *file, int line,
+                    const char *format, ...);
 
 private:
+    static bool s_isEnable;
     static bool s_showThreadId;  // 是否显示线程ID
     static bool s_showFileLine;  // 是否显示文件和行号
 
@@ -40,7 +43,7 @@ private:
     static std::string getThreadId();
 
     // 格式化日志前缀（线程ID、文件行号）
-    static std::string formatPrefix(const char* file, int line);
+    static std::string formatPrefix(const char *file, int line);
 };
 
 // 日志宏定义 - 自动包含文件名和行号，使用默认标签

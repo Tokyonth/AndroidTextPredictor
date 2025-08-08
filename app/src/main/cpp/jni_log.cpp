@@ -4,6 +4,7 @@
 #include <sstream>
 
 // 静态成员初始化
+bool JniLog::s_isEnable = true;
 bool JniLog::s_showThreadId = true;
 bool JniLog::s_showFileLine = true;
 
@@ -42,6 +43,10 @@ std::string JniLog::formatPrefix(const char* file, int line) {
 
 void JniLog::log(LogLevel level, const char* tag, const char* file, int line,
                  const char* format, ...) {
+    if (!JniLog::s_isEnable) {
+        return;
+    }
+
     if (!tag || !file || !format) {
         return;
     }
