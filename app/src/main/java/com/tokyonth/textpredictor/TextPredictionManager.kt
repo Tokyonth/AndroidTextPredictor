@@ -1,6 +1,7 @@
 package com.tokyonth.textpredictor
 
 import android.content.Context
+import java.io.File
 
 class TextPredictionManager(
     private val context: Context,
@@ -10,7 +11,16 @@ class TextPredictionManager(
     private val modelPath = "${context.filesDir}/ngram_model.bin"
 
     // 创建预测器实例
-    private val predictor = TextPredictorNative(modelPath, 3, getSampleTexts())
+    private val predictor: TextPredictorNative
+
+    init {
+        val dataSet = if (File(modelPath).exists()) {
+            null
+        } else {
+            getSampleTexts()
+        }
+        predictor = TextPredictorNative(modelPath, 3, dataSet)
+    }
 
     // 初始化样例文本（用于首次训练）
     private fun getSampleTexts(): Array<String> {

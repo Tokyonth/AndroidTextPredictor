@@ -11,29 +11,12 @@
 #include <algorithm>
 #include <numeric>
 #include <cmath>
-
-// 哈希函数用于vector<string>作为unordered_map的键
-struct VectorHash {
-    size_t operator()(const std::vector<std::string> &v) const {
-        std::hash<std::string> hasher;
-        size_t seed = 0;
-        for (const auto &s: v) {
-            seed ^= hasher(s) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-        }
-        return seed;
-    }
-};
+#include "ngram_model_io.h"
 
 // N元语法模型类
 class NGramModel {
 private:
-    int n_;
-    double smoothing_;
-    std::unordered_map<int, std::unordered_map<std::vector<std::string>,
-            std::unordered_map<std::string, int>, VectorHash>> models_;
-    std::unordered_map<std::string, int> word_count_;
-    int total_words_;
-    std::unordered_set<std::string> vocabulary_;
+    NGramModelData data_;  // 封装的模型参数
 
     // 文本预处理和分词
     std::vector<std::string> preprocess_text(const std::string &text);
@@ -43,7 +26,10 @@ private:
     build_ngrams(const std::vector<std::string> &words, int n);
 
 public:
-    NGramModel(int n = 3, double smoothing = 0.1);
+    NGramModel(int n = 3, double smoothing = 0.1) {
+        data_.n = n;
+        data_.smoothing = smoothing;
+    }
 
     // 训练模型
     void train(const std::string &text);
@@ -52,22 +38,21 @@ public:
     std::vector<std::pair<std::string, double>> predict_next_word(
             const std::string &context, int num_predictions = 3);
 
-    // 序列化相关方法
-    bool save(const std::string &file_path);
+    // 序列化相关方法（调用工具函数）
+    bool save(const std::string &file_path) {
+        return save_model_data(data_, file_path);
+    }
 
-    bool load(const std::string &file_path);
+    bool load(const std::string &file_path) {
+        return load_model_data(data_, file_path);
+    }
 
-    // Getters
-    int get_n() const { return n_; }
-
-    double get_smoothing() const { return smoothing_; }
-
-    int get_vocabulary_size() const { return vocabulary_.size(); }
-
-    int get_total_words() const { return total_words_; }
+    auto get_model_data() {
+        return data_;
+    }
 };
 
-// 文本预测器类
+// 文本预测器类（保持不变）
 class TextPredictor {
 private:
     std::unique_ptr<NGramModel> model_;

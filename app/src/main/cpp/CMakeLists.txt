@@ -12,6 +12,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(SOURCE_FILES
         native-lib.cpp
         ngram_model.cpp
+        jni_log.cpp
+        ngram_model_io.cpp
 )
 
 # 定义头文件目录

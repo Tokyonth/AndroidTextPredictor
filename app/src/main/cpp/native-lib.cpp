@@ -1,13 +1,9 @@
 #include <jni.h>
 #include <string>
 #include <vector>
-#include <android/log.h>
 
 #include "ngram_model.h"
-
-#define LOG_TAG "PredictorJni"
-#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#include "jni_log.h"
 
 // 存储TextPredictor实例的映射
 static std::unordered_map<jlong, std::unique_ptr<TextPredictor>> predictors;

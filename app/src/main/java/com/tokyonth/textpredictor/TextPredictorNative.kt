@@ -5,7 +5,7 @@ import android.util.Pair
 class TextPredictorNative @JvmOverloads constructor(
     modelPath: String,
     n: Int = 3,
-    sampleTexts: Array<String>,
+    sampleTexts: Array<String>?,
 ) {
 
     companion object {
@@ -20,7 +20,7 @@ class TextPredictorNative @JvmOverloads constructor(
         this.predictorId = createPredictor(modelPath, n, sampleTexts)
     }
 
-    external fun createPredictor(modelPath: String, n: Int, sampleTexts: Array<String>): Long
+    external fun createPredictor(modelPath: String, n: Int, sampleTexts: Array<String>?): Long
 
     external fun addToHistory(predictorId: Long, text: String)
 
